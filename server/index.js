@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const authRouter = require('./routes/auth');
 
 // INIT
+const HOSTNAME = "127.0.0.1";
 const PORT = 3000;
 const app = express();
 const DB = "mongodb+srv://martin:martin123@cluster0.tkctqam.mongodb.net/?retryWrites=true&w=majority"
@@ -28,6 +29,6 @@ app.get("/", (req, res) => {
     res.json({msg: "Hello"});
 });
 
-app.listen(PORT, () => {
-    console.log(`connected to port ${PORT}`);
+app.listen(PORT, HOSTNAME, () => {
+    console.log(`Running at  ${HOSTNAME}:${PORT}`);
 });
