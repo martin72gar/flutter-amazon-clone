@@ -6,13 +6,13 @@ const mongoose = require('mongoose');
 const authRouter = require('./routes/auth');
 
 // INIT
-const HOSTNAME = "127.0.0.1";
+
 const PORT = 3000;
 const app = express();
-const DB = "mongodb+srv://martin:martin123@cluster0.tkctqam.mongodb.net/?retryWrites=true&w=majority"
+const DB = "mongodb+srv://martin:martin123@cluster0.tkctqam.mongodb.net/?retryWrites=true&w=majority";
 
 // middleware
-app.use(express.json);
+app.use(express.json());
 app.use(authRouter);
 
 // connection
@@ -25,10 +25,10 @@ mongoose
         console.log(e);
     });
 
-app.get("/", (req, res) => {
-    res.json({msg: "Hello"});
+app.get('/', (req, res) => {
+    res.send('Hello World NodeJS');
 });
 
-app.listen(PORT, HOSTNAME, () => {
-    console.log(`Running at  ${HOSTNAME}:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running at port ${PORT}`);
 });
