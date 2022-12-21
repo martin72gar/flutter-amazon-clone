@@ -1,9 +1,10 @@
 const express = require("express");
 const User = require("../models/user");
 const bcryptjs = require("bcryptjs");
-
 const authRouter = express.Router();
+const jwt = require("jsonwebtoken");
 
+// Sign up
 authRouter.post("/api/signup", async (req, res) => {
     console.log("sign up...");
     try {
@@ -28,6 +29,30 @@ authRouter.post("/api/signup", async (req, res) => {
 
         res.json(user);
     } catch (e) {
+        res.status(500).json({error: e.message});
+    }
+});
+
+// Sign in
+authRouter.post("/api/signin", async (req, res) => {
+    console.log("sign in...");
+    try {
+        const {email, password} = req.body;
+
+        const user = await User.findOne({email});
+        if (!user) {
+            return res.status(400).json({msg: "User does not exist!"});
+        }
+
+        const isMatch = await bcryptjs.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({msg: "Invalid credentials!"});
+        }
+
+        const token = jwt.sign({id: user._id}, "passwordKey");
+        res.json({token, ...user._doc});
+    }
+    catch (e) {
         res.status(500).json({error: e.message});
     }
 });
