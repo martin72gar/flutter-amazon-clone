@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:amazon_clone_tutorial/constants/error_handling.dart';
 import 'package:amazon_clone_tutorial/constants/globar_variables.dart';
@@ -41,7 +42,7 @@ class AuthService {
           showSnackBar(context, "Account created successfully");
         },
       );
-      print(res.statusCode);
+      log("${res.statusCode}");
     } catch (e) {
       showSnackBar(context, e.toString());
     }
@@ -64,14 +65,14 @@ class AuthService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-      print(res.body);
+      log(res.body);
 
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () {},
       );
-      print(res.statusCode);
+      log("${res.statusCode}");
     } catch (e) {
       showSnackBar(context, e.toString());
     }
