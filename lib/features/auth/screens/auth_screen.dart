@@ -74,7 +74,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   ? GlobalVariables.backgroundColor
                   : GlobalVariables.greyBackgroundCOlor,
               title: const Text(
-                'Crate Account',
+                'Create Account',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),

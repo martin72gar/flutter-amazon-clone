@@ -1,12 +1,16 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:amazon_clone_tutorial/constants/error_handling.dart';
 import 'package:amazon_clone_tutorial/constants/globar_variables.dart';
 import 'package:amazon_clone_tutorial/constants/utils.dart';
+import 'package:amazon_clone_tutorial/features/home/screens/home_screen.dart';
 import 'package:amazon_clone_tutorial/model/user.dart';
+import 'package:amazon_clone_tutorial/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   // sign up user
@@ -42,7 +46,7 @@ class AuthService {
           showSnackBar(context, "Account created successfully");
         },
       );
-      log("${res.statusCode}");
+      Logger().d(res.statusCode);
     } catch (e) {
       showSnackBar(context, e.toString());
     }
@@ -65,14 +69,21 @@ class AuthService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-      log(res.body);
+
+      Logger().d(res.body);
 
       httpErrorHandle(
         response: res,
         context: context,
-        onSuccess: () {},
+        onSuccess: () async {
+          showSnackBar(context, "Login Success");
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          Provider.of<UserProvider>(context, listen: false).setUser(res.body);
+          await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreen.routeName, (route) => false);
+        },
       );
-      log("${res.statusCode}");
     } catch (e) {
       showSnackBar(context, e.toString());
     }
