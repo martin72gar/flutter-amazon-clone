@@ -1,8 +1,6 @@
-import 'dart:html';
-
 import 'package:amazon_clone_tutorial/constants/globar_variables.dart';
 import 'package:amazon_clone_tutorial/features/home/screens/home_screen.dart';
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatefulWidget {
@@ -90,7 +88,7 @@ class _BottomBarState extends State<BottomBar> {
                       width: bottomBarBorderWidth),
                 ),
               ),
-              child: Badge(
+              child: badges.Badge(
                   elevation: 0,
                   badgeContent: const Text('2'),
                   badgeColor: Colors.white,
